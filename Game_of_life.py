@@ -12,9 +12,7 @@ init()
 
 GAME_PLACE_LIMIT = 20
 
-
 class Cell:
-
     # X, Y Point in map
     # _X = -1 # Initialize with impossibile value
     # _Y = -1 # Initialize with impossibile value
@@ -54,21 +52,16 @@ class Generations:
         self.world = World()
     
     def start(self):
-
         print(f" ==============  第 {self._generations_iter} 代  ==============  ")
         print(self.world)
 
         while self._generations_iter < self.max_iter:
-            # 更新世代的數字
-            self._generations_iter += 1
-
+            self._generations_iter += 1 # 更新世代的數字
 
             # 更新世界
             for y in range(len(self.world.map)):
                 for x in range(len(self.world.map[y])):
-                    state = sum(
-                        self.world[neighborX, neighborY]._alive for neighborX, neighborY in self.world[x, y]._nieghberhoods
-                    )
+                    state = sum(self.world[neighborX, neighborY]._alive for neighborX, neighborY in self.world[x, y]._nieghberhoods)
 
                     if state >= 4 or state ==0 or state ==1:
                         self.world[x, y] = 0
@@ -81,15 +74,9 @@ class Generations:
 
             print(f" ==============  第 {self._generations_iter} 代  ==============  ")
             print(self.world)
-                    
-            
-            
-    
-    
 
-
+            
 class World:
-
     def __init__(self):
         self.map = []
         for y in range(GAME_PLACE_LIMIT):
@@ -103,9 +90,7 @@ class World:
         self.__next_map = deepcopy(self.map)
     
     def __str__(self):
-        """讓世界架構更好看清楚"""
         string = ""
-
         for y in range(len(self.map)):
             row = "  ".join(str(v) if v._alive == 0 else f"{Fore.GREEN}{v}{Style.RESET_ALL}" for v in self.map[y] )
             string = string + f"{y: >2} |  {row}\n"
@@ -121,8 +106,6 @@ class World:
         x = coordinate[0]
         y = coordinate[1]
         self.__next_map[y][x]._alive = value
-
-
 
 if __name__ == "__main__":
     g = Generations(max_iter=100)
